@@ -194,7 +194,7 @@ open class SurveyDataSource : NSObject, UITableViewDataSource {
       return surveyQuestions.headerText(section: section)
    }
 
-   open func nextButtonTapped(_ sender: UIButton) {
+   @objc open func nextButtonTapped(_ sender: UIButton) {
       if let buttonWithId = sender as? UIButtonWithId, let updateId = buttonWithId.updateId {
          self.tableCellDataDelegate.markFinished(updateId: updateId)
       }

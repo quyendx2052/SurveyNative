@@ -70,7 +70,7 @@ open class DefaultTableCellDataDelegate : NSObject, TableCellDataDelegate {
       NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillBeHidden(_:)), name: Notification.Name.UIKeyboardWillHide, object: nil)
    }
    
-   func keyboardWasShown(_ notification: Notification) {
+   @objc func keyboardWasShown(_ notification: Notification) {
       let info = notification.userInfo
       if let kbSize = (info?[UIKeyboardFrameBeginUserInfoKey] as? CGRect)?.size {
          let contentInsets = UIEdgeInsetsMake(self.tableView.contentInset.top, 0, kbSize.height, 0)
@@ -88,7 +88,7 @@ open class DefaultTableCellDataDelegate : NSObject, TableCellDataDelegate {
       }
    }
    
-   func keyboardWillBeHidden(_ notification: Notification) {
+   @objc func keyboardWillBeHidden(_ notification: Notification) {
       let contentInsets = UIEdgeInsetsMake(self.tableView.contentInset.top, 0, 0, 0)
       self.tableView.contentInset = contentInsets
       self.tableView.scrollIndicatorInsets = contentInsets
