@@ -22,10 +22,6 @@ class MyViewController: SurveyViewController, SurveyAnswerDelegate, CustomCondit
       return "ExampleQuestions"
    }
    
-   override func surveyTitle() -> String {
-      return "Example Survey"
-   }
-   
    func question(for id: String, answer: Any) {
       print("Question: \(id) has answer: \(answer)")
    }
