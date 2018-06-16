@@ -23,8 +23,18 @@ open class SurveyViewController: UIViewController {
     open var delegate : UITableViewDelegate?
     open var cellDataDelegate : TableCellDataDelegate?
 
-    open func surveyJsonFile() -> String {
-        preconditionFailure("This method must be overridden")
+    /**
+     Return questions JSON file name e.g: `sample_questions_pack`
+     */
+    open func surveyJsonFile() -> String? {
+        return nil
+    }
+
+    /**
+     Return JSON dictionary of the questions
+     */
+    open func surveyJSON() -> [String: Any]? {
+        return nil
     }
 
     open func surveyTheme() -> SurveyTheme {
@@ -46,16 +56,31 @@ open class SurveyViewController: UIViewController {
     override open func viewDidLoad() {
         super.viewDidLoad()
 
-        surveyQuestions = SurveyQuestions.load(surveyJsonFile(), surveyTheme: surveyTheme())
+        if let jsonFile = surveyJsonFile() {
+            surveyQuestions = SurveyQuestions.load(jsonFile, surveyTheme: surveyTheme())
+
+        } else if let jsonDict = surveyJSON() {
+            surveyQuestions = SurveyQuestions.load(jsonDict, surveyTheme: surveyTheme())
+
+        } else {
+            Logger.log("Could not find questions", level: .error)
+        }
 
         // Add tableView as UIView's subview
         view.addSubview(tableView)
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
-            tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
-        ])
+        if #available(iOS 11.0, *) {
+            let top = tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+            let bottom = tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            let leading = tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
+            let trailing = tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+            NSLayoutConstraint.activate([top, bottom, trailing, leading])
+        } else {
+            let top = tableView.topAnchor.constraint(equalTo: view.topAnchor)
+            let bottom = tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            let leading = tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+            let trailing = tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            NSLayoutConstraint.activate([top, bottom, trailing, leading])
+        }
         
         TableUIUpdater.setupTable(tableView)
 
