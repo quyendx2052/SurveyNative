@@ -15,7 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        let viewController = MyViewController(nibName: "MyViewController", bundle: Bundle.main)
+        let viewController = MyViewController()
         viewController.title = "Example Survey"
         let navigationController = UINavigationController(rootViewController: viewController)
         window?.rootViewController = navigationController
