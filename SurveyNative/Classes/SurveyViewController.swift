@@ -10,7 +10,7 @@ import UIKit
 
 open class SurveyViewController: UIViewController {
 
-    lazy var tableView: UITableView = {
+    open lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -88,6 +88,10 @@ open class SurveyViewController: UIViewController {
         tapRecognizer.cancelsTouchesInView = false
         tableView.addGestureRecognizer(tapRecognizer)
 
+        configDelegation()
+    }
+
+    open func configDelegation() {
         self.cellDataDelegate = DefaultTableCellDataDelegate(surveyQuestions!, tableView: tableView, submitCompletionHandler: { data, response, error -> Void in
             self.dismiss(animated: true, completion: nil)
         })
